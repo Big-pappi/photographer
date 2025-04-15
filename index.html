@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABEL | Link Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      animation: pop 0.5s ease-in-out;
+    }
+
+    .profile-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin: 0.5rem 0;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+
+    .icons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .icons a {
+      font-size: 1.5rem;
+      color: #fff;
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .icons a:hover {
+      color: #e3b505;
+      transform: scale(1.2);
+    }
+
+    .btn {
+      padding: 0.8rem 2rem;
+      background: #e3b505;
+      color: #000;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: transparent;
+      color: #e3b505;
+      border: 2px solid #e3b505;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="profile-img">
+    <img src="images/abel.jpg" alt="ABEL">
+  </div>
+
+  <h1>ABEL</h1>
+  <p class="subtitle">Creative Photographer</p>
+
+  <div class="icons">
+    <a href="mailto:abelybright97@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://x.com/abely_clever?s=21"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.tiktok.com/@abelyclever?_t=ZM-8vYC6mN4chp&_r=1"><i class="fab fa-tiktok"></i></a>
+    <a href="https://wa.me/255783555006"><i class="fab fa-whatsapp"></i></a>
+  </div>
+
+  <a href="main.html" class="btn">More About Me</a>
+
+</body>
+</html>

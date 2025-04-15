@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Session - Abel Photography</title>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary: #0a0a0a;
+      --secondary: #1a1a1a;
+      --accent: #e3b505;
+      --text: #f5f5f5;
+      --text-secondary: #aaaaaa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background-image: url(images/land1.jpg);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background-color: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--accent);
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      height: 100vh;
+      background-color: var(--secondary);
+      padding: 6rem 2rem;
+      transition: right 0.3s ease;
+      z-index: 999;
+    }
+
+    .mobile-menu.active {
+      right: 0;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+    }
+
+    .mobile-menu li {
+      margin-bottom: 1.5rem;
+    }
+
+    .mobile-menu a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--accent);
+    }
+
+    section.container {
+      max-width: 800px;
+      margin: 6rem auto 3rem;
+      padding: 2rem;
+      background-color: rgba(26, 26, 26, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--accent);
+      font-size: 2rem;
+    }
+
+    .booking-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .booking-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .booking-form input,
+    .booking-form select,
+    .booking-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    .submit-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.2rem;
+      background-color: var(--accent);
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #c49f04;
+    }
+
+    .whatsapp-btn {
+      background-color: #25D366;
+      color: #fff;
+    }
+
+    @media (min-width: 600px) {
+      .submit-options {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">ABEL</div>
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <nav class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="main.html#about">About</a></li>
+        <li><a href="main.html#portfolio">Portfolio</a></li>
+        <li><a href="main.html#services">Services</a></li>
+        <li><a href="main.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="container">
+    <h2>Book a Photo Session</h2>
+    <form class="booking-form" action="booking.php" method="POST">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required />
+      </div>
+
+      <div class="form-group">
+        <label for="event_type">Event Type</label>
+        <select id="event_type" name="event_type" required>
+          <option value="">Select Event Type</option>
+          <option value="wedding">Wedding</option>
+          <option value="portrait">Portrait Session</option>
+          <option value="commercial">Commercial Shoot</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Preferred Date</label>
+        <input type="date" id="date" name="date" required />
+      </div>
+
+      <div class="form-group">
+        <label for="message">Special Requests</label>
+        <textarea id="message" name="message" rows="4"></textarea>
+      </div>
+
+      <div class="submit-options">
+        <button type="submit" class="btn">Send via Email</button>
+        <button type="button" class="btn whatsapp-btn" onclick="sendViaWhatsApp()">Send via WhatsApp</button>
+      </div>
+    </form>
+  </section>
+
+  <script>
+    // Toggle mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    // Close menu on link click
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+      });
+    });
+
+    // WhatsApp Function
+    function sendViaWhatsApp() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const eventType = document.getElementById('event_type').value;
+      const date = document.getElementById('date').value;
+      const message = document.getElementById('message').value;
+
+      const whatsappMessage =
+        `New Booking Request:%0A%0A` +
+        `Name: ${name}%0A` +
+        `Email: ${email}%0A` +
+        `Phone: ${phone}%0A` +
+        `Event Type: ${eventType}%0A` +
+        `Preferred Date: ${date}%0A` +
+        `Message: ${message}`;
+
+      window.open(`https://wa.me/255783555006?text=${whatsappMessage}`, '_blank');
+    }
+  </script>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $to = "chedybreezy@email.com";
+  $subject = "New Booking Request";
+
+  $message = "Name: " . $_POST['name'] . "\n";
+  $message .= "Email: " . $_POST['email'] . "\n";
+  $message .= "Phone: " . $_POST['phone'] . "\n";
+  $message .= "Event Type: " . $_POST['event_type'] . "\n";
+  $message .= "Preferred Date: " . $_POST['date'] . "\n";
+  $message .= "Message: " . $_POST['message'] . "\n";
+
+  $headers = "From: " . $_POST['email'];
+
+  if (mail($to, $subject, $message, $headers)) {
+    echo "<script>
+      alert('Booking request sent successfully!');
+      document.querySelector('.booking-form').reset();
+      // Optional: Redirect after 3 seconds
+      // setTimeout(() => window.location.href = 'thankyou.php', 3000);
+    </script>";
+  } else {
+    echo "<script>alert('Error sending request. Please try again.');</script>";
+  }
+}
+?>
+</body>
+
+</html>
+
+

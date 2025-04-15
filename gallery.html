@@ -1,0 +1,104 @@
+<!-- gallery.php -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Abel Photography</title>
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 5px;
+            cursor: pointer;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            margin: 2% auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include your header/navigation -->
+
+    <section class="container">
+        <h2>Portfolio Gallery</h2>
+        
+        <div class="gallery-grid">
+            <?php
+            $images = glob('gallery/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+            foreach ($images as $image) {
+                echo '<div class="gallery-item" onclick="openLightbox(\''.$image.'\')">';
+                echo '<img src="'.$image.'" alt="Gallery Image">';
+                echo '</div>';
+            }
+            ?>
+        </div>
+
+        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+            <span class="close-btn">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+        </div>
+    </section>
+
+    <script>
+        function openLightbox(imgSrc) {
+            document.getElementById('lightbox').style.display = 'block';
+            document.getElementById('lightbox-img').src = imgSrc;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // Close lightbox when clicking outside
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('lightbox')) {
+                closeLightbox();
+            }
+        }
+    </script>
+</body>
+</html>
