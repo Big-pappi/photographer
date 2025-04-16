@@ -3,81 +3,201 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABEL | Link Page</title>
+  <title>Abely Clever | Professional Photographer</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #000000;
+      --secondary: #111111;
+      --accent: #e3b505;
+      --text: #ffffff;
+      --text-secondary: #aaaaaa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #000;
-      color: #fff;
+      background-color: var(--primary);
+      color: var(--text);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
       text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(30, 30, 30, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .profile-container {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .profile-ring {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.6;
+      animation: pulse 3s infinite ease-in-out;
     }
 
     .profile-img {
-      width: 120px;
-      height: 120px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       overflow: hidden;
-      margin-bottom: 1rem;
-      animation: pop 0.5s ease-in-out;
+      margin: 0 auto;
+      position: relative;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      animation: pop 0.8s ease-out;
     }
 
     .profile-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center top;
     }
 
     h1 {
-      font-size: 1.8rem;
-      margin: 0.5rem 0;
+      font-size: 2.2rem;
+      margin: 0.8rem 0 0.3rem;
+      font-weight: 600;
+      letter-spacing: 2px;
     }
 
     .subtitle {
-      color: #aaa;
-      margin-bottom: 2rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 1px;
     }
 
-    .icons {
+    .divider {
+      width: 40px;
+      height: 3px;
+      background-color: var(--accent);
+      margin: 1rem auto 1.5rem;
+      border-radius: 2px;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .social-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 1.2rem;
       justify-content: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
 
-    .icons a {
-      font-size: 1.5rem;
-      color: #fff;
-      transition: transform 0.3s, color 0.3s;
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: var(--secondary);
+      color: var(--text);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      text-decoration: none;
     }
 
-    .icons a:hover {
-      color: #e3b505;
-      transform: scale(1.2);
+    .social-links a:hover {
+      background-color: var(--accent);
+      color: var(--primary);
+      transform: translateY(-5px);
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .btn {
+      display: inline-block;
       padding: 0.8rem 2rem;
-      background: #e3b505;
-      color: #000;
+      background: var(--accent);
+      color: var(--primary);
       border: none;
       border-radius: 30px;
       text-decoration: none;
       font-weight: bold;
       transition: 0.3s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
     .btn:hover {
       background: transparent;
-      color: #e3b505;
-      border: 2px solid #e3b505;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .footer {
+      margin-top: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      opacity: 0.7;
     }
 
     @keyframes pop {
@@ -85,31 +205,98 @@
         transform: scale(0.5);
         opacity: 0;
       }
+      70% {
+        transform: scale(1.1);
+      }
       100% {
         transform: scale(1);
         opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .profile-img {
+        width: 110px;
+        height: 110px;
+      }
+      
+      .profile-ring {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .btn {
+        padding: 0.9rem 1.8rem;
       }
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
+    <div class="profile-container">
+      <div class="profile-ring"></div>
+      <div class="profile-img">
+        <img src="images/abel.jpg" alt="Abely Clever">
+      </div>
+    </div>
 
-  <div class="profile-img">
-    <img src="images/abel.jpg" alt="ABEL">
+    <h1>Abely Clever</h1>
+    <p class="subtitle">Professional Photographer</p>
+    
+    <div class="divider"></div>
+    
+    <p class="tagline">Capturing moments and creating timeless visual stories through the art of photography.</p>
+
+    <div class="social-links">
+      <a href="mailto:abelybright97@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      <a href="https://x.com/abely_clever?s=21"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.tiktok.com/@abelyclever?_t=ZM-8vYC6mN4chp&_r=1" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://wa.me/255783555006" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <div class="buttons">
+      <a href="main.html" class="btn">View Portfolio</a>
+      <a href="main.html#contact" class="btn btn-outline">Book a Session</a>
+    </div>
+
+    <div class="footer">
+      &copy; <span id="year"></span> Abely Clever Photography
+    </div>
   </div>
 
-  <h1>ABEL</h1>
-  <p class="subtitle">Creative Photographer</p>
-
-  <div class="icons">
-    <a href="mailto:abelybright97@gmail.com"><i class="fas fa-envelope"></i></a>
-    <a href="https://x.com/abely_clever?s=21"><i class="fab fa-twitter"></i></a>
-    <a href="https://www.tiktok.com/@abelyclever?_t=ZM-8vYC6mN4chp&_r=1"><i class="fab fa-tiktok"></i></a>
-    <a href="https://wa.me/255783555006"><i class="fab fa-whatsapp"></i></a>
-  </div>
-
-  <a href="main.html" class="btn">More About Me</a>
-
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
