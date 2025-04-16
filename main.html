@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abel | Visual Storyteller</title>
+    <title>Abely Clever | Visual Storyteller</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0a0a0a;
@@ -28,7 +31,7 @@
             overflow-x: hidden;
         }
         
-        /* Header & Mobile Menu */
+        /* Header & Navigation */
         header {
             position: fixed;
             top: 0;
@@ -40,6 +43,12 @@
             z-index: 1000;
             background-color: rgba(10, 10, 10, 0.9);
             backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 1rem 1.5rem;
         }
         
         .logo {
@@ -47,6 +56,52 @@
             font-weight: 700;
             letter-spacing: 2px;
             color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .desktop-nav {
+            display: none;
+        }
+        
+        .desktop-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .desktop-nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .desktop-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .desktop-nav a:hover {
+            color: var(--accent);
+        }
+        
+        .desktop-nav a:hover::after {
+            width: 100%;
         }
         
         .menu-btn {
@@ -56,6 +111,11 @@
             font-size: 1.5rem;
             cursor: pointer;
             z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-btn:hover {
+            color: var(--accent);
         }
         
         .mobile-menu {
@@ -64,10 +124,13 @@
             right: -100%;
             width: 80%;
             height: 100vh;
-            background-color: var(--secondary);
+            background-color: rgba(15, 15, 15, 0.98);
             padding: 6rem 2rem;
-            transition: right 0.3s ease;
-            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 999;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
         }
         
         .mobile-menu.active {
@@ -76,10 +139,20 @@
         
         .mobile-menu ul {
             list-style: none;
+            margin-bottom: 2rem;
         }
         
         .mobile-menu li {
             margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.4s ease;
+            transition-delay: calc(0.1s * var(--i));
+        }
+        
+        .mobile-menu.active li {
+            opacity: 1;
+            transform: translateX(0);
         }
         
         .mobile-menu a {
@@ -87,10 +160,55 @@
             text-decoration: none;
             font-size: 1.2rem;
             transition: color 0.3s;
+            display: block;
+            padding: 0.5rem 0;
         }
         
         .mobile-menu a:hover {
             color: var(--accent);
+        }
+        
+        .mobile-menu .social-links {
+            margin-top: auto;
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .mobile-menu .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: var(--text);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu .social-links a:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
         
         /* Hero Section */
@@ -118,34 +236,90 @@
             z-index: -1;
         }
         
+        .hero-content {
+            max-width: 800px;
+            animation: fadeIn 1s ease-out;
+        }
+        
         .hero h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             letter-spacing: 3px;
         }
         
+        .hero h1 span {
+            color: var(--accent);
+            display: block;
+            margin-top: 0.5rem;
+        }
+        
         .hero p {
             font-size: 1.2rem;
             max-width: 600px;
-            margin-bottom: 2rem;
+            margin: 0 auto 2rem;
             color: var(--text-secondary);
         }
         
-        .typewriter {
-            border-right: 3px solid var(--accent);
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--accent) }
+        .btn:hover {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        
+        .scroll-down {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
         }
         
         /* Main Content */
@@ -156,12 +330,18 @@
         }
         
         section {
-            margin-bottom: 5rem;
+            margin-bottom: 7rem;
+            position: relative;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
         
         h2 {
             font-size: 2.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             position: relative;
             display: inline-block;
         }
@@ -170,10 +350,17 @@
             content: '';
             position: absolute;
             bottom: -10px;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 50px;
             height: 3px;
             background-color: var(--accent);
+        }
+        
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         /* About Section */
@@ -191,18 +378,84 @@
         .about-image {
            flex: 1;
            max-width: 400px;
+           position: relative;
+        }
+        
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--accent);
+            z-index: -1;
         }
         
         .about-image img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 5px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-
+        }
+        
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--secondary);
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
         
         /* Portfolio Section */
+        .portfolio-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .category-btn {
+            padding: 0.5rem 1.5rem;
+            background-color: var(--secondary);
+            color: var(--text);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+        
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -213,7 +466,9 @@
             position: relative;
             height: 300px;
             overflow: hidden;
-            border-radius: 5px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
         }
         
         .portfolio-item img {
@@ -221,6 +476,10 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-5px);
         }
         
         .portfolio-item:hover img {
@@ -246,6 +505,17 @@
             opacity: 1;
         }
         
+        .portfolio-overlay h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .view-all-btn {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
         /* Services Section */
         .services-grid {
             display: grid;
@@ -256,8 +526,26 @@
         .service-card {
             background-color: var(--secondary);
             padding: 2rem;
-            border-radius: 5px;
+            border-radius: 10px;
             transition: transform 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            background-color: var(--accent);
+            transition: height 0.3s ease;
+        }
+        
+        .service-card:hover::before {
+            height: 100%;
         }
         
         .service-card:hover {
@@ -275,12 +563,149 @@
             margin-bottom: 1rem;
         }
         
+        /* Testimonials Section */
+        .testimonials-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonials-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .testimonial {
+            min-width: 100%;
+            padding: 2rem;
+            background-color: var(--secondary);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--accent);
+        }
+        
+        .testimonial-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .testimonial-text::before,
+        .testimonial-text::after {
+            content: '"';
+            font-size: 2rem;
+            color: var(--accent);
+            position: absolute;
+        }
+        
+        .testimonial-text::before {
+            top: -10px;
+            left: -10px;
+        }
+        
+        .testimonial-text::after {
+            bottom: -20px;
+            right: -10px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .slider-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: var(--text);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .slider-btn:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+        }
+        
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dot.active, .dot:hover {
+            background-color: var(--accent);
+        }
+        
         /* Booking Section */
         .booking {
             background-color: var(--secondary);
             padding: 4rem 2rem;
             text-align: center;
             border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .booking::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/land2.jpg') no-repeat center center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .booking-content {
+            position: relative;
+            z-index: 1;
         }
         
         .booking h2 {
@@ -293,34 +718,6 @@
             color: var(--text-secondary);
         }
         
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: var(--primary);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s;
-            border: 2px solid var(--accent);
-        }
-        
-        .btn:hover {
-            background-color: transparent;
-            color: var(--accent);
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            color: var(--accent);
-            margin-left: 1rem;
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--accent);
-            color: var(--primary);
-        }
-        
         /* Contact Section */
         .contact-grid {
             display: grid;
@@ -331,15 +728,26 @@
         .contact-info h3 {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
+            color: var(--accent);
         }
         
         .contact-info p {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info p i {
+            margin-right: 1rem;
+            color: var(--accent);
+            font-size: 1.2rem;
+            width: 20px;
         }
         
         .social-links {
             display: flex;
             gap: 1rem;
+            margin-top: 2rem;
         }
         
         .social-links a {
@@ -352,6 +760,7 @@
             background-color: var(--secondary);
             color: var(--text);
             transition: all 0.3s;
+            text-decoration: none;
         }
         
         .social-links a:hover {
@@ -360,43 +769,215 @@
             transform: translateY(-3px);
         }
         
-        .contact-form input,
-        .contact-form textarea {
-            width: 100%;
-            padding: 1rem;
-            margin-bottom: 1rem;
+        .contact-form {
             background-color: var(--secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .contact-form h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
             border: none;
             border-radius: 5px;
             color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s;
         }
         
-        .contact-form textarea {
-            height: 150px;
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        
+        textarea.form-control {
+            height: 120px;
             resize: none;
+        }
+        
+        /* Gallery Modal */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .modal-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: var(--text);
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        
+        .modal-nav button {
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--text);
+            border: none;
+            font-size: 2rem;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        
+        .modal-nav button:hover {
+            background: rgba(227, 181, 5, 0.5);
+        }
+        
+        .modal-caption {
+            color: var(--text);
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
         }
         
         /* Footer */
         footer {
             background-color: var(--secondary);
-            padding: 3rem 2rem;
-            text-align: center;
+            padding: 4rem 2rem 2rem;
+            position: relative;
         }
         
         .footer-content {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
         }
         
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .footer-about p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links h4, .footer-contact h4, .footer-newsletter h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-links h4::after, .footer-contact h4::after, .footer-newsletter h4::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
         }
         
         .footer-links a {
-            color: var(--text);
+            color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s;
         }
@@ -405,15 +986,88 @@
             color: var(--accent);
         }
         
+        .footer-contact p {
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-contact p i {
+            margin-right: 0.8rem;
+            color: var(--accent);
+        }
+        
+        .footer-newsletter p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .newsletter-form {
+            display: flex;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 5px 0 0 5px;
+            color: var(--text);
+        }
+        
+        .newsletter-form button {
+            padding: 0.8rem 1.2rem;
+            background-color: var(--accent);
+            border: none;
+            border-radius: 0 5px 5px 0;
+            color: var(--primary);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #c49f04;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
         .copyright {
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
         
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         /* Media Queries */
-        @media (max-width: 768px) {
+        @media (min-width: 992px) {
+            .desktop-nav {
+                display: block;
+            }
+            
+            .menu-btn {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 991px) {
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .about-content,
@@ -422,96 +1076,228 @@
             }
             
             .about-image {
-                height: 300px;
+                height: auto;
                 grid-row: 1;
+                margin: 0 auto;
+            }
+            
+            .about-image img {
+                width: 100%;
+                height: auto;
+                object-position: top center;
+            }
+            
+            .contact-form {
+                margin-top: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .portfolio-item {
+                height: 250px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header & Mobile Menu -->
-    <header>
-        <div class="logo">ABEL</div>
-        <button class="menu-btn" id="menuBtn">
+    <header id="header">
+        <a href="index.php" class="logo"><i class="fas fa-camera"></i>Abely Clever</a>
+        
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="gallery.php">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
             <i class="fas fa-bars"></i>
         </button>
         
         <nav class="mobile-menu" id="mobileMenu">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li style="--i:1"><a href="index.html">Home</a></li>
+                <li style="--i:2"><a href="#about">About</a></li>
+                <li style="--i:3"><a href="#portfolio">Portfolio</a></li>
+                <li style="--i:4"><a href="#services">Services</a></li>
+                <li style="--i:5"><a href="gallery.html">Gallery</a></li>
+                <li style="--i:6"><a href="#contact">Contact</a></li>
+                <li style="--i:7"><a href="booking.html">Book a Session</a></li>
             </ul>
+            
+            <div class="social-links">
+                <a href="mailto:abelybright97@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://x.com/abely_clever?s=21" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://www.tiktok.com/@abelyclever?_t=ZM-8vYC6mN4chp&_r=1" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://wa.me/255783555006" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
         </nav>
     </header>
     
+    <div class="overlay" id="overlay"></div>
+    
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <h1>CAPTURING <span class="typewriter">MOMENTS THAT MATTER</span></h1>
-        <p>Professional photography services specializing in portraits, events, and commercial work. Let's create something beautiful together.</p>
-        <div>
-            <a href="#booking" class="btn">Book a Session</a>
-            <a href="#portfolio" class="btn btn-outline">View Work</a>
+        <div class="hero-content">
+            <h1>CAPTURING <span>MOMENTS THAT MATTER</span></h1>
+            <p>Professional photography services specializing in portraits, events, and commercial work. Let's create something beautiful together.</p>
+            <div class="hero-buttons">
+                <a href="#booking" class="btn">Book a Session</a>
+                <a href="#portfolio" class="btn btn-outline">View Work</a>
+            </div>
         </div>
+        
+        <a href="#about" class="scroll-down" aria-label="Scroll down">
+            <i class="fas fa-chevron-down"></i>
+        </a>
     </section>
     
     <!-- Main Content -->
     <div class="container">
         <!-- About Section -->
         <section id="about">
-            <h2>About Me</h2>
+            <div class="section-header">
+                <h2>About Me</h2>
+                <p>Get to know the person behind the lens and my passion for visual storytelling</p>
+            </div>
+            
             <div class="about-content">
                 <div class="about-text">
-                    <p>Hi, I'm Abel - a visual storyteller with a passion for capturing authentic moments and creating timeless imagery. With over 8 years of professional experience, I specialize in portrait, event, and commercial photography.</p>
+                    <p>Hi, I'm Abely Clever - a visual storyteller with a passion for capturing authentic moments and creating timeless imagery. With over 8 years of professional experience, I specialize in portrait, event, and commercial photography.</p>
                     <p>My approach combines technical expertise with an artistic eye, ensuring each photograph tells a compelling story. I believe in creating a comfortable, collaborative environment that allows your true self to shine through.</p>
                     <p>When I'm not behind the camera, you can find me exploring new locations for shoot inspiration or teaching photography workshops to aspiring creatives.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">8+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Happy Clients</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Events Covered</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="about-image">
-                    <img src="images/abel.jpg" alt="Abel the Photographer">
+                    <img src="images/abel.jpg" alt="Abely Clever - Professional Photographer">
                 </div>
             </div>
         </section>
         
         <!-- Portfolio Section -->
         <section id="portfolio">
-            <h2>Portfolio</h2>
+            <div class="section-header">
+                <h2>Portfolio</h2>
+                <p>Explore a selection of my best work across different photography styles</p>
+            </div>
+            
+            <div class="portfolio-categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="portraits">Portraits</button>
+                <button class="category-btn" data-category="weddings">Weddings</button>
+                <button class="category-btn" data-category="fashion">Fashion</button>
+                <button class="category-btn" data-category="graduation">Graduation</button>
+                <button class="category-btn" data-category="commercial">Commercial</button>
+            </div>
+            
             <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <img src="images/b.jpg" alt="Portrait Photography">
+                <div class="portfolio-item" data-category="portraits">
+                    <img src="images/wo.jpg" alt="Portrait Photography">
                     <div class="portfolio-overlay">
                         <h3>Portraits</h3>
-                        <a href="gallery.php" class="btn">View Gallery</a>
+                        <button class="btn view-image" data-src="images/wo.jpg" data-caption="Portrait Photography">View Larger</button>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item" data-category="weddings">
                     <img src="images/a.jpg" alt="Wedding Photography">
                     <div class="portfolio-overlay">
                         <h3>Weddings</h3>
-                        <a href="gallery.php" class="btn">View Gallery</a>
+                        <button class="btn view-image" data-src="images/a.jpg" data-caption="Wedding Photography">View Larger</button>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item" data-category="commercial">
                     <img src="images/d.jpg" alt="Commercial Photography">
                     <div class="portfolio-overlay">
                         <h3>Commercial</h3>
-                        <a href="gallery.php" class="btn">View Gallery</a>
+                        <button class="btn view-image" data-src="images/d.jpg" data-caption="Commercial Photography">View Larger</button>
                     </div>
                 </div>
-                <div class="portfolio-item">
-                    <img src="images/c.jpg" alt="Event Photography">
+                <div class="portfolio-item" data-category="fashion">
+                    <img src="images/fa.jpeg" alt="Fashion Photography">
                     <div class="portfolio-overlay">
-                        <h3>Events</h3>
-                        <a href="gallery.php" class="btn">View Gallery</a>
+                        <h3>Fashion</h3>
+                        <button class="btn view-image" data-src="images/fa.jpeg" data-caption="Fashion Photography">View Larger</button>
                     </div>
                 </div>
+                <div class="portfolio-item" data-category="graduation">
+                    <img src="images/gj.jpeg" alt="Graduation Photography">
+                    <div class="portfolio-overlay">
+                        <h3>Graduation</h3>
+                        <button class="btn view-image" data-src="images/gj.jpeg" data-caption="Graduation Photography">View Larger</button>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="portraits">
+                    <img src="images/c.jpg" alt="Portrait Photography">
+                    <div class="portfolio-overlay">
+                        <h3>Portraits</h3>
+                        <button class="btn view-image" data-src="images/c.jpg" data-caption="Portrait Photography">View Larger</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="view-all-btn">
+                <a href="gallery.php" class="btn">View Full Gallery</a>
             </div>
         </section>
         
         <!-- Services Section -->
         <section id="services">
-            <h2>Services</h2>
+            <div class="section-header">
+                <h2>Services</h2>
+                <p>Professional photography services tailored to your specific needs</p>
+            </div>
+            
             <div class="services-grid">
                 <div class="service-card">
                     <i class="fas fa-user"></i>
@@ -529,6 +1315,16 @@
                     <p>High-quality product and business photography for brands, restaurants, and commercial clients.</p>
                 </div>
                 <div class="service-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Graduation Photos</h3>
+                    <p>Celebrate your academic achievements with professional graduation photos that capture this important milestone.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-tshirt"></i>
+                    <h3>Fashion Photography</h3>
+                    <p>Creative fashion shoots for models, designers, and brands looking to showcase their style and products.</p>
+                </div>
+                <div class="service-card">
                     <i class="fas fa-video"></i>
                     <h3>Photo + Video Packages</h3>
                     <p>Combine still photography with videography for complete coverage of your event or project.</p>
@@ -536,41 +1332,138 @@
             </div>
         </section>
         
+        <!-- Testimonials Section -->
+        <section id="testimonials">
+            <div class="section-header">
+                <h2>Client Testimonials</h2>
+                <p>What my clients have to say about their experience</p>
+            </div>
+            
+            <div class="testimonials-slider">
+                <div class="testimonials-container" id="testimonialsContainer">
+                    <div class="testimonial">
+                        <div class="testimonial-img">
+                            <img src="images/a.jpg" alt="Client">
+                        </div>
+                        <div class="testimonial-text">
+                            <p>Abely is an incredible photographer who captured our wedding day perfectly. The photos are stunning and really tell the story of our special day. Highly recommend!</p>
+                        </div>
+                        <div class="testimonial-author">Sarah & John</div>
+                        <div class="testimonial-role">Wedding Clients</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-img">
+                            <img src="images/land3.jpg" alt="Client">
+                        </div>
+                        <div class="testimonial-text">
+                            <p>I needed professional headshots for my business and Abely delivered beyond my expectations. He made me feel comfortable and the results were amazing!</p>
+                        </div>
+                        <div class="testimonial-author">Michael T.</div>
+                        <div class="testimonial-role">Business Owner</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-img">
+                            <img src="images/gf.jpeg" alt="Client">
+                        </div>
+                        <div class="testimonial-text">
+                            <p>The graduation photos Abely took of my daughter are treasures we'll keep forever. He captured her personality perfectly and made the session fun!</p>
+                        </div>
+                        <div class="testimonial-author">Patricia M.</div>
+                        <div class="testimonial-role">Family Client</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-img">
+                            <img src="images/d.jpg" alt="Client">
+                        </div>
+                        <div class="testimonial-text">
+                            <p>Working with Abely for our fashion campaign was a fantastic experience. His creative vision and attention to detail resulted in images that perfectly captured our brand's essence.</p>
+                        </div>
+                        <div class="testimonial-author">Emma L.</div>
+                        <div class="testimonial-role">Fashion Designer</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-img">
+                            <img src="images/land1.jpg" alt="Client">
+                        </div>
+                        <div class="testimonial-text">
+                            <p>Abely photographed our corporate event with professionalism and discretion. The images perfectly captured the atmosphere and key moments of the day. We'll definitely be booking him again!</p>
+                        </div>
+                        <div class="testimonial-author">David R.</div>
+                        <div class="testimonial-role">Event Coordinator</div>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="slider-btn" id="prevBtn" aria-label="Previous testimonial">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-btn" id="nextBtn" aria-label="Next testimonial">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="slider-dots" id="sliderDots">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                    <span class="dot" data-index="3"></span>
+                    <span class="dot" data-index="4"></span>
+                </div>
+            </div>
+        </section>
+        
         <!-- Booking Section -->
         <section id="booking">
             <div class="booking">
-                <h2>Ready to Create Something Beautiful?</h2>
-                <p>Let's discuss your vision and how we can bring it to life through photography. Book a consultation or session today.</p>
-                <a href="booking.php" class="btn">Book Now</a>
+                <div class="booking-content">
+                    <h2>Ready to Create Something Beautiful?</h2>
+                    <p>Let's discuss your vision and how we can bring it to life through photography. Book a consultation or session today.</p>
+                    <a href="booking.php" class="btn">Book a Session</a>
+                </div>
             </div>
         </section>
         
         <!-- Contact Section -->
         <section id="contact">
-            <h2>Get In Touch</h2>
+            <div class="section-header">
+                <h2>Get In Touch</h2>
+                <p>Have questions or want to discuss a project? Reach out through any of these channels</p>
+            </div>
+            
             <div class="contact-grid">
                 <div class="contact-info">
                     <h3>Contact Information</h3>
-                    <p>Have questions or want to discuss a project? Reach out through any of these channels or fill out the contact form.</p>
                     <p><i class="fas fa-envelope"></i> abelybright97@gmail.com</p>
                     <p><i class="fas fa-phone"></i> +255 783 555 006</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Based in Dar  es Salaam, available Tanzania</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Based in Dar es Salaam, available throughout Tanzania</p>
                     
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="mailto:abelybright97@gmail.com"><i class="fas fa-envelope"></i></a>
+                        <a href="mailto:abelybright97@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
                         <a href="https://x.com/abely_clever?s=21"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://wa.me/255783555006"><i class="fab fa-whatsapp"></i></a>
-                        </div>
-                    
+                        <a href="https://www.tiktok.com/@abelyclever?_t=ZM-8vYC6mN4chp&_r=1" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://wa.me/255783555006" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
+                
                 <div class="contact-form">
-                    <form>
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
-                        <input type="text" placeholder="Subject">
-                        <textarea placeholder="Your Message" required></textarea>
+                    <h3>Send a Message</h3>
+                    <form id="contactForm" method="post" action="process_form.php">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" name="message" class="form-control" required></textarea>
+                        </div>
                         <button type="submit" class="btn">Send Message</button>
                     </form>
                 </div>
@@ -578,30 +1471,91 @@
         </section>
     </div>
     
+    <!-- Gallery Modal -->
+    <div class="gallery-modal" id="galleryModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modalImage" src="/placeholder.svg" alt="Gallery Image">
+            <div class="modal-nav">
+                <button id="prevImage" aria-label="Previous image">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="nextImage" aria-label="Next image">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+    
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <div class="logo">ABEL</div>
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="#about">About</a>
-                <a href="#portfolio">Portfolio</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact</a>
+            <div class="footer-about">
+                <div class="footer-logo">Abely Clever</div>
+                <p>Professional photographer specializing in capturing authentic moments and creating timeless imagery for clients throughout Tanzania.</p>
+                <div class="social-links">
+                    <a href="mailto:abelybright97@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://x.com/abely_clever?s=21"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.tiktok.com/@abelyclever?_t=ZM-8vYC6mN4chp&_r=1" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/255783555006" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
             </div>
-            <p class="copyright">© <span id="year"></span> Abel Photography. All rights reserved.</p>
-</div>
+            
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-envelope"></i> abelybright97@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +255 783 555 006</p>
+                <p><i class="fas fa-map-marker-alt"></i> Dar es Salaam, Tanzania</p>
+            </div>
+            
+            <div class="footer-newsletter">
+                <h4>Newsletter</h4>
+                <p>Subscribe to receive updates on new photoshoots, special offers, and photography tips.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">© <span id="year"></span> Abely Clever Photography. All rights reserved.</p>
+        </div>
     </footer>
     
     <script>
-     document.getElementById("year").textContent = new Date().getFullYear();
+        // Current Year
+        document.getElementById("year").textContent = new Date().getFullYear();
 
         // Mobile Menu Toggle
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('overlay');
+        const header = document.getElementById('header');
         
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
             
             // Change icon based on menu state
             if (mobileMenu.classList.contains('active')) {
@@ -609,6 +1563,13 @@
             } else {
                 menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
             }
+        });
+        
+        // Close menu when clicking overlay
+        overlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
         });
         
         // Smooth scrolling for anchor links
@@ -619,53 +1580,200 @@
                 // Close mobile menu if open
                 if (mobileMenu.classList.contains('active')) {
                     mobileMenu.classList.remove('active');
+                    overlay.classList.remove('active');
                     menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 }
                 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Portfolio Category Filter
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const category = btn.getAttribute('data-category');
+                
+                // Show/hide portfolio items based on category
+                portfolioItems.forEach(item => {
+                    if (category === 'all' || item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
                 });
             });
         });
         
-        // Typewriter effect
-        const typewriterElement = document.querySelector('.typewriter');
-        const phrases = ["MOMENTS THAT MATTER", "YOUR UNIQUE STORY", "TIMELESS MEMORIES", "AUTHENTIC EMOTION"];
-        let currentPhrase = 0;
+        // Gallery Modal
+        const modal = document.getElementById('galleryModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const closeModal = document.getElementById('closeModal');
+        const prevBtn = document.getElementById('prevImage');
+        const nextBtn = document.getElementById('nextImage');
+        const viewBtns = document.querySelectorAll('.view-image');
         
-        function typeWriter() {
-            let i = 0;
-            const text = phrases[currentPhrase];
-            typewriterElement.textContent = '';
-            typewriterElement.style.width = '0';
-            typewriterElement.style.borderRight = '3px solid var(--accent)';
+        let currentIndex = 0;
+        const images = [];
+        
+        // Collect all image data
+        viewBtns.forEach((btn, index) => {
+            const src = btn.getAttribute('data-src');
+            const caption = btn.getAttribute('data-caption');
             
-            function typing() {
-                if (i < text.length) {
-                    typewriterElement.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(typing, 100);
-                } else {
-                    setTimeout(erase, 2000);
-                }
-            }
+            images.push({ src, caption });
             
-            function erase() {
-                if (i > 0) {
-                    typewriterElement.textContent = text.substring(0, i-1);
-                    i--;
-                    setTimeout(erase, 50);
-                } else {
-                    currentPhrase = (currentPhrase + 1) % phrases.length;
-                    setTimeout(typeWriter, 500);
-                }
-            }
-            
-            typing();
+            btn.addEventListener('click', () => {
+                openModal(index);
+            });
+        });
+        
+        function openModal(index) {
+            currentIndex = index;
+            modalImg.src = images[index].src;
+            modalCaption.textContent = images[index].caption;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
         
-        // Start the typewriter effect
-        setTimeout(typeWriter, 3000);
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            modalImg.src = images[currentIndex].src;
+            modalCaption.textContent = images[currentIndex].caption;
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            modalImg.src = images[currentIndex].src;
+            modalCaption.textContent = images[currentIndex].caption;
+        });
+        
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Testimonials Slider
+        const testimonialsContainer = document.getElementById('testimonialsContainer');
+        const testimonialSlides = document.querySelectorAll('.testimonial');
+        const prevTestimonialBtn = document.getElementById('prevBtn');
+        const nextTestimonialBtn = document.getElementById('nextBtn');
+        const dots = document.querySelectorAll('.dot');
+        
+        let testimonialIndex = 0;
+        const testimonialCount = testimonialSlides.length;
+        
+        function showTestimonial(index) {
+            testimonialsContainer.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Update dots
+            dots.forEach(dot => dot.classList.remove('active'));
+            document.querySelector(`.dot[data-index="${index}"]`).classList.add('active');
+            
+            testimonialIndex = index;
+        }
+        
+        prevTestimonialBtn.addEventListener('click', () => {
+            testimonialIndex = (testimonialIndex - 1 + testimonialCount) % testimonialCount;
+            showTestimonial(testimonialIndex);
+        });
+        
+        nextTestimonialBtn.addEventListener('click', () => {
+            testimonialIndex = (testimonialIndex + 1) % testimonialCount;
+            showTestimonial(testimonialIndex);
+        });
+        
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const index = parseInt(dot.getAttribute('data-index'));
+                showTestimonial(index);
+            });
+        });
+        
+        // Auto slide testimonials
+        setInterval(() => {
+            testimonialIndex = (testimonialIndex + 1) % testimonialCount;
+            showTestimonial(testimonialIndex);
+        }, 5000);
+        
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.about-content, .portfolio-grid, .services-grid, .testimonials-slider, .booking, .contact-grid');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementPosition < windowHeight - 100) {
+                    element.style.animation = 'fadeIn 1s ease-out forwards';
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        // Trigger once on load
+        setTimeout(animateOnScroll, 500);
     </script>
 </body>
 </html>
+
+<Actions>
+  <Action name="Add Instagram icon to social links" description="Add Instagram to the social media links in all pages" />
+  <Action name="Create a pricing page" description="Create a dedicated page for detailed pricing information" />
+  <Action name="Add dark/light mode toggle" description="Implement a theme switcher for the website" />
+  <Action name="Create animated logo" description="Add subtle animation to the Abely Clever logo" />
+  <Action name="Add background pattern" description="Add a subtle background pattern to enhance visual appeal" />
+</Actions>
